@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carolina & Biagio — 24 de Octubre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cinzel:wght@400;500;600&family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #F4EFE3;
+    --cream-card: #FBF8EF;
+    --ink: #33321f;
+    --green: #3C4B2D;
+    --green-deep: #2C3821;
+    --gold: #B8862E;
+    --gold-soft: #C9A24B;
+    --line: rgba(184,134,46,0.35);
+    --shadow: 0 10px 30px rgba(44,56,33,0.08);
+    /* Alto fluido de la foto del hero: escala de forma continua
+       entre 430px (celulares angostos ~320px) y 620px (tarjeta a
+       ancho completo ~880px), sin saltos entre breakpoints. */
+    --photo-h: clamp(430px, calc(34vw + 321px), 620px);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Playfair Display';
+    -webkit-font-smoothing: antialiased;
+    overflow-x:hidden;
+  }
+
+  .page{
+    max-width: 880px;
+    margin: 0 auto;
+    position: relative;
+    min-height:100vh;
+    background: var(--cream);
+  }
+
+  /* ---------- decorative sunflowers ---------- */
+  .bloom{
+    position:absolute;
+    pointer-events:none;
+    opacity:0.9;
+    z-index:0;
+  }
+  .bloom.b1{ width:340px; bottom:1180px; right:-90px; }
+  .bloom-photo{
+    position:absolute;
+    left: -26px;
+    bottom: -14px;
+    width: 250px;
+    height:auto;
+    pointer-events:none;
+    z-index:0;
+    opacity:0.92;
+  }
+  .bloom-corner{
+    position:absolute;
+    bottom: 0;
+    right: 0;
+    left:auto;
+    top:auto;
+    width: clamp(300px, 52%, 470px);
+    height:auto;
+    margin:0;
+    padding:0;
+    pointer-events:none;
+    z-index:0;
+    opacity:0.85;
+    display:block;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding: 56px 34px 30px;
+    z-index:1;
+    min-height: var(--photo-h);
+  }
+  .hero-text{
+    text-align:center;
+  }
+  .hero-text .eyebrow{
+    max-width:none;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .hero-text .rule-heart{
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .hero-text .names .amp{
+    margin-left:0;
+  }
+  .hero-text .date-row{
+    justify-content:center;
+  }
+  .eyebrow{
+    font-style:italic;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height:1.5;
+    max-width: 230px;
+  }
+  .guest-greeting{
+    display:none;
+    font-family: 'Playfair Display', serif;
+    font-weight:600;
+    font-size: 1.35rem;
+    color: var(--green-deep);
+    letter-spacing:0.02em;
+    margin-bottom: 10px;
+  }
+  .script-title{
+    font-family: 'Great Vibes', cursive;
+      font-weight: lighter;
+      letter-spacing: 0.11em;
+    font-size: clamp(2.4rem, 9vw, 3.1rem);
+    color: #d4a24c;
+    margin: 18px 0 10px;
+    line-height:1;
+  }
+  .rule-heart{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin: 6px 0 20px;
+    max-width: 220px;
+  }
+  .rule-heart .line{ flex:1; height:1px; background:var(--line); }
+  .rule-heart svg{ width:20px; height:20px; flex-shrink:0; }
+
+  .names{
+    font-family: 'Playfair Display', serif;
+    font-weight:600;
+    color: #1f3b2e;
+    font-size: clamp(2.7rem, 11vw, 3.6rem);
+    line-height: 1.05;
+  }
+  .names .amp{
+    display:block;
+    font-family: 'Great Vibes', cursive;
+    color: #d4a24c;
+    font-size: 2.6rem;
+    font-weight:400;
+    margin: 20px 0 0 6px;
+  }
+  .photo-wrap{
+    position:absolute;
+    top: 0;
+    right: 0;
+    width: 72%;
+    height: var(--photo-h);
+    z-index:0;
+    overflow:hidden;
+  }
+  .photo-wrap img{
+    width:100%;
+    height:100%;
+    /*object-fit:cover;*/
+    object-position: left center;
+    display:block;
+  }
+  /* OPCIÓN B — foto HD + máscara de humo (archivo PNG aparte, reposicionable).
+     Se activa descomentando el <div class="photo-hd"> en el HTML del hero. */
+  .photo-hd{
+    width:100%;
+    height:100%;
+    background-image: url("images/foto-novios.jpg");
+    background-size: cover;
+    background-position: var(--foto-x, 50%) var(--foto-y, 48%);
+    -webkit-mask-image: url("images/mascara-humo.png");
+            mask-image: url("images/mascara-humo.png");
+    -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+            mask-position: center;
+  }
+
+  .date-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top: 26px;
+    color: #d4a24c;
+    position:relative;
+    z-index:1;
+  }
+  .date-row svg{ width:26px; height:26px; flex-shrink:0; }
+  .date-row span{
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.15rem, 4.6vw, 1.5rem);
+    letter-spacing:0.02em;
+    color: var(--ink);
+  }
+  .date-row span b{
+    font-weight:600;
+    color: var(--ink);
+    font-size: clamp(1.3rem, 5.2vw, 1.7rem);
+  }
+
+  /* ---------- COUNTDOWN ---------- */
+  .countdown-section{
+    padding: 10px clamp(14px, 5vw, 34px) 8px;
+    text-align:center;
+    position:relative;
+    z-index:1;
+  }
+  .section-label{
+    font-family: 'Cinzel', serif;
+    letter-spacing:0.16em;
+    font-size:1.05rem;
+    text-transform:uppercase;
+    color: var(--green-deep);
+    font-weight:600;
+  }
+  .mini-heart-rule{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin: 12px auto 22px;
+    width: min(300px, 100%);
+  }
+  .mini-heart-rule .line{flex:1;height:1px;background:var(--line);}
+  .mini-heart-rule svg{width:20px;height:20px;}
+
+  .countdown-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(6px, 2.2vw, 12px);
+  }
+  .count-box{
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: clamp(14px, 4vw, 20px) 4px clamp(12px, 3.2vw, 16px);
+    box-shadow: var(--shadow);
+    min-width: 0;
+  }
+  .count-num{
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.9rem, 8vw, 2.5rem);
+    font-weight:200;
+    color: var(--green-deep);
+    line-height:1;
+    font-variant-numeric: tabular-nums;
+  }
+  .count-label{
+    font-size: clamp(0.58rem, 2.4vw, 0.66rem);
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color: #1f3b2e;
+    margin-top:8px;
+    display:block;
+  }
+
+  /* ---------- INTRO TEXT ---------- */
+  .intro-text{
+    text-align:center;
+    padding: 34px 40px 10px;
+    font-size: 1.08rem;
+    line-height:1.6;
+    color: var(--ink);
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------- EVENT CARDS ---------- */
+  .events{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 26px 24px 10px;
+    position:relative;
+    z-index:1;
+  }
+  .event-card{
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 44px 16px 42px;
+    text-align:center;
+    box-shadow: var(--shadow);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height: 480px;
+    justify-content: flex-start;
+  }
+  .event-card svg{ width:34px; height:34px; margin-bottom:1px; }
+  .event-icon{ width:58px; height:130px; margin-bottom:14px; object-fit:contain; display:block; }
+  .event-title{
+    font-family: 'Great Vibes', cursive;
+    font-weight: unset;
+    font-size: 1.6rem;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .event-time{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-family: 'Lora', serif;
+    font-size:1.15rem;
+    color:var(--ink);
+    margin-bottom: 10px;
+  }
+  .event-time svg{ width:15px; height:15px; margin:0; }
+  .event-divider.mini-heart-rule{
+    width: 190px;
+    height:auto;
+    background:none;
+    margin: 6px auto 14px;
+  }
+  .event-divider.mini-heart-rule svg{ width:14px; height:14px; }
+  .event-venue{
+    font-size:0.95rem;
+    line-height:1.45;
+    color: var(--ink);
+    margin-bottom: 18px;
+    min-height: 42px;
+    flex: 1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .btn-outline{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    border: 1px solid var(--green);
+    color: var(--green-deep);
+    background:transparent;
+    padding: 12px 26px;
+    border-radius: 30px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing:0.1em;
+    text-transform: uppercase;
+    text-decoration:none;
+    cursor:pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    width: 100%;
+  }
+  .btn-outline svg{ width:14px; height:14px; }
+  .btn-outline:hover{ background: var(--green); color:#fff; }
+
+  .venue-dropdown{ position:relative; display:block; width:100%; }
+  .venue-toggle{ cursor:pointer; }
+  .venue-chevron{ width:11px !important; height:11px !important; margin-left:2px; transition: transform 0.2s ease; }
+  .venue-dropdown.open .venue-chevron{ transform: rotate(180deg); }
+  .venue-menu{
+    position:absolute;
+    top: calc(100% + 8px);
+    left:50%;
+    transform: translate(-50%, 6px);
+    min-width: 190px;
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 14px 34px rgba(44,56,33,0.16);
+    padding: 6px;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 20;
+  }
+  .venue-dropdown.open .venue-menu{
+    opacity:1;
+    pointer-events:auto;
+    transform: translate(-50%, 0);
+  }
+  .venue-menu a{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    color: var(--ink);
+    text-decoration:none;
+    font-family: 'Lora', serif;
+    font-size: 0.92rem;
+    transition: background 0.15s ease;
+  }
+  .venue-menu a svg{ width:15px; height:15px; flex-shrink:0; color: #d4a24c; }
+  .venue-menu a:hover{ background: rgba(184,134,46,0.12); }
+
+  /* ---------- RSVP ---------- */
+  .rsvp{
+    text-align:center;
+    padding: 40px 34px 10px;
+    position:relative;
+    z-index:1;
+  }
+  .rsvp p{
+    font-size: 1rem;
+    line-height:1.6;
+    margin: 14px auto 26px;
+    max-width: 340px;
+  }
+  .wa-buttons{
+    display:flex;
+    justify-content:center;
+    gap: 14px;
+    flex-wrap:wrap;
+  }
+  .wa-btn{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:12px;
+    background: var(--green-deep);
+    color:#fdfaf0;
+    text-decoration:none;
+    border-radius: 17px;
+    padding: 8px 26px 8px 30px;
+    min-width: 190px;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+  .wa-btn:hover{ transform: translateY(-2px); background:#243119; }
+  .wa-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:30px;
+    height:30px;
+    flex-shrink:0;
+  }
+  .wa-icon img{ width:30px; height:30px; display:block; }
+  .wa-text{ display:flex; flex-direction:column; align-items:flex-start; gap:1px; }
+  .wa-btn .row1{ font-size:0.78rem; letter-spacing:0.02em; opacity:0.9; }
+  .wa-btn .name{ font-family: 'Playfair Display', serif; font-weight:600; font-size:1.15rem; letter-spacing:0.03em;}
+  .wa-phone{
+    font-size:0.8rem;
+    color: var(--ink);
+    opacity:0.65;
+    margin-top:6px;
+    display:block;
+    text-align:center;
+  }
+  .wa-pair{ display:flex; flex-direction:column; align-items:center; gap:2px;}
+
+  /* ---------- GIFTS ---------- */
+  .gifts{
+    text-align:center;
+    padding: 42px 34px 10px;
+    position:relative;
+    z-index:1;
+  }
+  .gifts p{
+    font-size:1rem;
+    line-height:1.6;
+    margin: 14px auto 22px;
+    max-width: 330px;
+  }
+  .btn-gift{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    border:1px solid #d4a24c;
+    color: #d4a24c;
+    background:transparent;
+    padding: 16px 30px;
+    border-radius: 40px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing:0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor:pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .btn-gift svg{ width:19px; height:19px; }
+  .btn-gift:hover{ background: #d4a24c; color:#fff; }
+  .secure-note{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    font-size:0.78rem;
+    color: var(--ink);
+    opacity:0.6;
+    margin-top: 14px;
+  }
+  .secure-note svg{ width:12px; height:12px; }
+
+  /* ---------- VERSE / FOOTER ---------- */
+  .verse{
+    padding: 48px 40px 190px;
+    position:relative;
+    z-index:1;
+  }
+  .verse .quote-mark{
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: #d4a24c;
+    line-height:0.4;
+    display:block;
+    margin-bottom: 14px;
+  }
+  .verse .quote-mark-close{
+    display:inline-block;
+    line-height:0;
+    vertical-align:-0.5em;
+    margin-left:2px;
+  }
+  .verse p{
+    font-size: 1.02rem;
+    line-height:1.6;
+    font-style:italic;
+  }
+  .verse .cite{
+    color: #d4a24c;
+    font-style:normal;
+    font-size:0.85rem;
+    display:block;
+    margin-top: 8px;
+  }
+  .signoff{
+    text-align:center;
+    margin-top: 56px;
+    transform: translateX(clamp(-34px, -7vw, -18px));
+  }
+  .signoff .with-love{
+    font-size:0.9rem;
+    color: var(--ink);
+    opacity:0.75;
+  }
+  .signoff .names2{
+    font-family: 'Playfair Display', serif;
+    font-weight:600;
+    font-size: 1.6rem;
+    color: var(--green-deep);
+    margin-top: 6px;
+  }
+  .signoff .names2 .amp2{
+    font-family: 'Great Vibes', cursive;
+    color: #d4a24c;
+    font-weight:400;
+    font-size:1.4rem;
+    margin: 0 4px;
+  }
+  .signoff .rule-heart{ margin: 14px auto 0; }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background: rgba(44,56,33,0.55);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 24px;
+    z-index: 100;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.25s ease;
+  }
+  .modal-overlay.open{ opacity:1; pointer-events:auto; }
+  .modal{
+    background: var(--cream-card);
+    border-radius: 18px;
+    max-width: 380px;
+    width:100%;
+    padding: 30px 26px 26px;
+    position:relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    transform: translateY(12px);
+    transition: transform 0.25s ease;
+    max-height: 86vh;
+    overflow-y:auto;
+  }
+  .modal-overlay.open .modal{ transform: translateY(0); }
+  .modal-close{
+    position:absolute;
+    top: 14px;
+    right: 14px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    color: var(--ink);
+    opacity:0.6;
+    padding:4px;
+  }
+  .modal-close svg{ width:18px; height:18px; }
+  .modal h3{
+    font-family: 'Great Vibes', cursive;
+    color: #d4a24c;
+    font-size: 1.9rem;
+    text-align:center;
+    margin-bottom: 4px;
+  }
+  .modal .modal-sub{
+    text-align:center;
+    font-size:0.85rem;
+    opacity:0.65;
+    margin-bottom: 18px;
+  }
+  .gift-account{
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .gift-account .owner{
+    font-family: 'Playfair Display', serif;
+    font-weight:600;
+    font-size: 1.1rem;
+    color: var(--green-deep);
+    margin-bottom: 8px;
+  }
+  .gift-field{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 5px 0;
+    font-size: 0.88rem;
+    gap: 10px;
+  }
+  .gift-field .fk{
+    opacity:0.6;
+    min-width: 78px;
+  }
+  .gift-field .fv{
+    font-weight:600;
+    flex:1;
+    text-align:right;
+    word-break: break-word;
+  }
+  .copy-btn{
+    background: var(--green-deep);
+    color:#fff;
+    border:none;
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 0.72rem;
+    cursor:pointer;
+    flex-shrink:0;
+    font-family: 'Lora', serif;
+    transition: background 0.15s ease;
+  }
+  .copy-btn:hover{ background:#243119; }
+  .copy-btn.copied{ background: #d4a24c; }
+  .copy-all-btn{
+    width:100%;
+    margin-top:12px;
+    background: var(--green-deep);
+    color:#fff;
+    border:none;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition: background 0.15s ease;
+  }
+  .copy-all-btn:hover{ background:#243119; }
+  .copy-all-btn.copied{ background: #d4a24c; }
+
+  /* ---------- TELÉFONOS (incluye equipos grandes 430–480px) ---------- */
+  @media (max-width: 480px){
+    .hero{ padding: 48px clamp(20px, 6vw, 34px) 26px; }
+
+    .events{
+      grid-template-columns: 1fr;
+      padding: 24px clamp(16px, 5vw, 24px) 10px;
+      gap: 18px;
+    }
+    .event-card{ min-height: auto; padding: 38px 18px 36px; }
+    .event-venue{ min-height:auto; flex: unset; margin-bottom: 16px; }
+
+    .intro-text{ padding: 30px clamp(22px, 7vw, 40px) 10px; }
+    .rsvp{ padding: 34px clamp(20px, 6vw, 34px) 10px; }
+    .gifts{ padding: 38px clamp(20px, 6vw, 34px) 10px; }
+    .verse{ padding: 44px clamp(24px, 7vw, 40px) 170px; }
+  }
+
+  /* ---------- TELÉFONOS MUY ANGOSTOS (≤360px) ---------- */
+  @media (max-width: 360px){
+    .hero{ padding-top: 42px; }
+    .wa-btn{ min-width: 100%; }
+    .wa-buttons{ gap: 12px; }
+  }
+
+  /* =========================================================
+     TARJETA CONTENIDA (tablet / desktop)
+     La invitación mantiene SIEMPRE la composición de la
+     propuesta aprobada: una tarjeta vertical centrada
+     (máx. 880px), con el hero de texto a la izquierda y la
+     foto superpuesta a la derecha. No se expande a ancho
+     completo ni cambia a dos columnas editoriales.
+     ========================================================= */
+
+  /* Divisor vertical con corazón entre las cards de eventos */
+  .events-divider{ display:none; }
+
+  @media (min-width: 481px){
+    .hero-text{ position:relative; z-index:1; }
+    .events{ grid-template-columns: 1fr auto 1fr; align-items: stretch; }
+    .events-divider{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 30px 2px;
+    }
+    .events-divider .v-line{ width:1px; flex:1; background: var(--line); }
+    .events-divider .v-heart{ width:16px; height:16px; flex-shrink:0; }
+  }
+
+  /* Presentación tipo propuesta a partir de tablet/desktop */
+  @media (min-width: 600px){
+    .hero{
+      padding: 62px 46px 34px;
+    }
+    /* Se conserva la proporción original de la foto (72% x 620)
+       para no deformar la imagen de los novios. */
+    .hero-text{ position:relative; z-index:1; max-width: 300px; }
+    .eyebrow{ font-size: 1.1rem; }
+
+    .countdown-section{ padding: 16px 46px 10px; }
+    .section-label{ font-size: 1.25rem; letter-spacing: 0.17em; }
+    .count-num{ font-size: clamp(2.5rem, 5vw, 2.9rem); }
+    .count-label{ font-size: 0.7rem; letter-spacing: 0.13em; }
+    .countdown-grid{ max-width: 640px; margin: 0 auto; gap: 18px; }
+    .count-box{ padding: 24px 6px 20px; }
+
+    .intro-text{ font-size: 1.12rem; max-width: 640px; margin: 0 auto; padding: 34px 40px 12px; }
+
+    .events{ max-width: 800px; margin: 0 auto; gap: 20px; padding: 34px 44px 14px; }
+    .event-card{ min-height: 500px; padding: 46px 22px 42px; }
+    .event-title{ font-size: 1.8rem; }
+    .event-time{ font-size: 1.2rem; }
+    .event-venue{ font-size: 1.05rem; }
+    .event-icon{ width: 82px; height: 120px; }
+
+    .rsvp{ padding: 46px 46px 12px; }
+    .rsvp p{ max-width: 440px; font-size: 1.05rem; }
+    .wa-buttons{ gap: 20px; }
+    .wa-btn{ min-width: 230px; }
+
+    .gifts{ padding: 48px 46px 12px; }
+    .gifts p{ max-width: 420px; font-size: 1.05rem; }
+
+    .verse{ padding: 48px 46px 210px; }
+    .verse p{ font-size: 1.08rem; }
+  }
+</style>
+</head>
+<body>
+
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="photo-wrap">
+      <!-- OPCIÓN A (por defecto, 100% confiable local y hosteado):
+           foto en alta calidad con el humo ya integrado. -->
+      
+          <!-- OPCIÓN B (máscara en vivo, reposicionable):
+           borra el <img> de arriba y descomenta este <div>.
+           Mueve la foto cambiando --foto-x / --foto-y (0% = izq/arriba, 100% = der/abajo).
+           Nota: para verla al abrir el archivo LOCAL usa Live Server o súbela a hosting;
+           como <img> local a veces el navegador bloquea la máscara.-->
+      <div class="photo-hd" style="--foto-x:-69%; --foto-y:48%;"></div>
+    </div>
+    <div class="hero-text">
+      <p class="guest-greeting" id="guest-greeting"></p>
+      <p class="eyebrow">Nos encontramos,<br>nos enamoramos…</p>
+      <h1 class="script-title">¡Nos casamos!</h1>
+      <div class="rule-heart">
+        <span class="line"></span>
+        <svg viewBox="0 0 24 24" fill="#B8862E"><path d="M12 20.3s-7.3-4.4-9.7-8.9C.7 7.7 2.4 4.4 5.9 4.4c2.1 0 3.7 1.1 4.7 2.8C11.6 5.5 13.2 4.4 15.3 4.4c3.5 0 5.2 3.3 3.6 7-2.4 4.5-9.6 8.9-9.6 8.9z"/></svg>
+        <span class="line"></span>
+      </div>
+      <h2 class="names">Carolina<span class="amp">&amp;</span>Biagio</h2>
+      <div class="date-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <span><b>24</b> DE OCTUBRE DE 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section class="countdown-section">
+    <p class="section-label">Faltan para nuestro gran día</p>
+    <div class="mini-heart-rule">
+      <span class="line"></span>
+      <svg viewBox="0 0 24 24" fill="#B8862E"><path d="M12 20.3s-7.3-4.4-9.7-8.9C.7 7.7 2.4 4.4 5.9 4.4c2.1 0 3.7 1.1 4.7 2.8C11.6 5.5 13.2 4.4 15.3 4.4c3.5 0 5.2 3.3 3.6 7-2.4 4.5-9.6 8.9-9.6 8.9z"/></svg>
+      <span class="line"></span>
+    </div>
+    <div class="countdown-grid">
+      <div class="count-box"><span class="count-num" id="cd-days">--</span><span class="count-label">Días</span></div>
+      <div class="count-box"><span class="count-num" id="cd-hours">--</span><span class="count-label">Horas</span></div>
+      <div class="count-box"><span class="count-num" id="cd-mins">--</span><span class="count-label">Minutos</span></div>
+      <div class="count-box"><span class="count-num" id="cd-secs">--</span><span class="count-label">Segundos</span></div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <p class="intro-text">Queremos celebrar contigo esta gran historia.<br>Acompáñanos a dar este hermoso paso ante los ojos de Dios.</p>
+
+  <!-- EVENTS -->
+  <section class="events">
+    <div class="event-card">
+      <img class="event-icon" src="images/icono-iglesia.png" alt="Ceremonia">
+      <h3 class="event-title">Ceremonia Religiosa</h3>
+      <div class="event-time">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#B8862E" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        15:30 hrs
+      </div>
+      <div class="event-divider mini-heart-rule">
+        <span class="line"></span>
+        <svg viewBox="0 0 24 24" fill="#B8862E"><path d="M12 20.3s-7.3-4.4-9.7-8.9C.7 7.7 2.4 4.4 5.9 4.4c2.1 0 3.7 1.1 4.7 2.8C11.6 5.5 13.2 4.4 15.3 4.4c3.5 0 5.2 3.3 3.6 7-2.4 4.5-9.6 8.9-9.6 8.9z"/></svg>
+        <span class="line"></span>
+      </div>
+      <p class="event-venue">Parroquia Nuestra Señora<br>del Carmen, Curacaví</p>
+      <div class="venue-dropdown">
+        <button class="btn-outline venue-toggle" type="button" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style= "margin-bottom: 1px;"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+          Ver ubicación
+          <svg class="venue-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style= "margin-bottom: 1px;"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="venue-menu">
+          <a href="https://www.google.com/maps/search/?api=1&query=Parroquia+Nuestra+Se%C3%B1ora+del+Carmen+Curacav%C3%AD" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+            Google Maps
+          </a>
+          <a href="https://waze.com/ul?q=Parroquia+Nuestra+Se%C3%B1ora+del+Carmen+Curacav%C3%AD&navigate=yes" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ><circle cx="12" cy="12" r="9"/><circle cx="9" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="11" r="1" fill="currentColor" stroke="none"/><path d="M8 15c1 1 2.2 1.5 4 1.5S15 16 16 15"/></svg>
+            Waze
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="events-divider" aria-hidden="true">
+      <span class="v-line"></span>
+      <svg class="v-heart" viewBox="0 0 24 24" fill="#B8862E"><path d="M12 20.3s-7.3-4.4-9.7-8.9C.7 7.7 2.4 4.4 5.9 4.4c2.1 0 3.7 1.1 4.7 2.8C11.6 5.5 13.2 4.4 15.3 4.4c3.5 0 5.2 3.3 3.6 7-2.4 4.5-9.6 8.9-9.6 8.9z"/></svg>
+      <span class="v-line"></span>
+    </div>
+
+    <div class="event-card">
+      <img class="event-icon" src="images/icono-copas.png" alt="Celebración">
+      <h3 class="event-title">Celebración</h3>
+      <div class="event-time">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#B8862E" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        17:00 hrs
+      </div>
+      <div class="event-divider mini-heart-rule">
+        <span class="line"></span>
+        <svg viewBox="0 0 24 24" fill="#B8862E"><path d="M12 20.3s-7.3-4.4-9.7-8.9C.7 7.7 2.4 4.4 5.9 4.4c2.1 0 3.7 1.1 4.7 2.8C11.6 5.5 13.2 4.4 15.3 4.4c3.5 0 5.2 3.3 3.6 7-2.4 4.5-9.6 8.9-9.6 8.9z"/></svg>
+        <span class="line"></span>
+      </div>
+      <p class="event-venue">Charochi Eventos</p>
+      <div class="venue-dropdown">
+        <button class="btn-outline venue-toggle" type="button" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style= "margin-bottom: 1px;"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+          Ver ubicación
+          <svg class="venue-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style= "margin-bottom: 1px;"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="venue-menu">
+          <a href="https://www.google.com/maps/search/?api=1&query=Charochi+Eventos" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+            Google Maps
+          </a>
+          <a href="https://waze.com/ul?q=Charochi+Eventos&navigate=yes" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="11" r="1" fill="currentColor" stroke="none"/><path d="M8 15c1 1 2.2 1.5 4 1.5S15 16 16 15"/></svg>
+            Waze
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section class="rsvp" style="padding-top: 10px;">
+    <p class="section-label">Confirmación de asistencia</p>
+    <div class="mini-heart-rule">
+      <span class="line"></span>
+      <svg viewBox="0 0 24 24" fill="#B8862E"><path d="M12 20.3s-7.3-4.4-9.7-8.9C.7 7.7 2.4 4.4 5.9 4.4c2.1 0 3.7 1.1 4.7 2.8C11.6 5.5 13.2 4.4 15.3 4.4c3.5 0 5.2 3.3 3.6 7-2.4 4.5-9.6 8.9-9.6 8.9z"/></svg>
+      <span class="line"></span>
+    </div>
+    <p id="rsvp-intro">Tu presencia es muy importante para nosotros.<br>Por favor confirmar antes del 31 de julio.</p>
+    <div class="wa-buttons">
+      <div class="wa-pair">
+        <a class="wa-btn" id="wa-carolina" href="https://wa.me/56999538189?text=%C2%A1Hola%20Carolina!%20Quiero%20confirmar%20mi%20asistencia%20a%20su%20matrimonio%20%F0%9F%92%9A" target="_blank" rel="noopener">
+          <span class="wa-icon">
+            <img src="images/WP-icon.png" alt="WhatsApp">
+          </span>
+          <span class="wa-text">
+            <span class="row1">Confirmar con</span>
+            <span class="name">CAROLINA</span>
+          </span>
+        </a>
+        <span class="wa-phone">+56 9 9953 8189</span>
+      </div>
+      <div class="wa-pair">
+        <a class="wa-btn" id="wa-biagio" href="https://wa.me/56984032941?text=%C2%A1Hola%20Biagio!%20Quiero%20confirmar%20mi%20asistencia%20a%20su%20matrimonio%20%F0%9F%92%9A" target="_blank" rel="noopener">
+          <span class="wa-icon">
+            <img src="images/WP-icon.png" alt="WhatsApp">
+          </span>
+          <span class="wa-text">
+            <span class="row1">Confirmar con</span>
+            <span class="name">BIAGIO</span>
+          </span>
+        </a>
+        <span class="wa-phone">+56 9 8403 2941</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GIFTS -->
+  <section class="gifts">
+    <p class="section-label">Regalos</p>
+    <div class="mini-heart-rule">
+      <span class="line"></span>
+      <svg viewBox="0 0 24 24" fill="#B8862E"><path d="M12 20.3s-7.3-4.4-9.7-8.9C.7 7.7 2.4 4.4 5.9 4.4c2.1 0 3.7 1.1 4.7 2.8C11.6 5.5 13.2 4.4 15.3 4.4c3.5 0 5.2 3.3 3.6 7-2.4 4.5-9.6 8.9-9.6 8.9z"/></svg>
+      <span class="line"></span>
+    </div>
+    <p>El mejor regalo es compartir este día contigo.<br>Si deseas hacernos un obsequio, puedes realizar una transferencia.</p>
+    <button class="btn-gift" id="open-gift-modal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18M12 8v13M12 8c-1.5-4-6-4-6-1.5S8.5 8 12 8zm0 0c1.5-4 6-4 6-1.5S15.5 8 12 8z"/></svg>
+      Ver datos para regalo
+    </button>
+    <p class="secure-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+      Tus datos están seguros.
+    </p>
+  </section>
+
+  <!-- VERSE -->
+  <section class="verse" style="padding-bottom: 25px;">
+    <span class="quote-mark">&ldquo;</span>
+    <p>El amor es paciente, es bondadoso. El amor nunca deja de ser.<span class="quote-mark quote-mark-close">&rdquo;</span><span class="cite">1 Corintios 13:4-8</span></p>
+    <div class="signoff">
+      <p class="with-love">Con cariño,</p>
+      <p class="names2">Carolina <span class="amp2">&amp;</span> Biagio</p>
+      <div class="rule-heart">
+        <span class="line"></span>
+        <svg viewBox="0 0 24 24" fill="#B8862E"><path d="M12 20.3s-7.3-4.4-9.7-8.9C.7 7.7 2.4 4.4 5.9 4.4c2.1 0 3.7 1.1 4.7 2.8C11.6 5.5 13.2 4.4 15.3 4.4c3.5 0 5.2 3.3 3.6 7-2.4 4.5-9.6 8.9-9.6 8.9z"/></svg>
+        <span class="line"></span>
+      </div>
+    </div>
+  </section>
+
+  <img class="bloom-corner" src="images/girasoles.png" alt="">
+
+</div>
+
+<!-- GIFT MODAL -->
+<div class="modal-overlay" id="gift-modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="close-gift-modal" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3>Datos para regalo</h3>
+    <p class="modal-sub">Gracias por tu cariño y generosidad</p>
+
+    <div class="gift-account">
+      <p class="owner">Carolina — Cuenta RUT</p>
+      <div class="gift-field"><span class="fk">Banco</span><span class="fv">Banco Estado</span><button class="copy-btn" data-copy="Banco Estado">Copiar</button></div>
+      <div class="gift-field"><span class="fk">Tipo</span><span class="fv">Cuenta RUT</span><button class="copy-btn" data-copy="Cuenta RUT">Copiar</button></div>
+      <div class="gift-field"><span class="fk">N.º cuenta</span><span class="fv">12.345.678-9</span><button class="copy-btn" data-copy="123456789">Copiar</button></div>
+      <div class="gift-field"><span class="fk">RUT</span><span class="fv">12.345.678-9</span><button class="copy-btn" data-copy="12.345.678-9">Copiar</button></div>
+      <div class="gift-field"><span class="fk">Email</span><span class="fv">carolina@email.com</span><button class="copy-btn" data-copy="carolina@email.com">Copiar</button></div>
+      <button class="copy-all-btn" type="button">Copiar todos los datos</button>
+    </div>
+
+    <div class="gift-account">
+      <p class="owner">Biagio — Cuenta Corriente</p>
+      <div class="gift-field"><span class="fk">Banco</span><span class="fv">Banco de Chile</span><button class="copy-btn" data-copy="Banco de Chile">Copiar</button></div>
+      <div class="gift-field"><span class="fk">Tipo</span><span class="fv">Cta. Corriente</span><button class="copy-btn" data-copy="Cuenta Corriente">Copiar</button></div>
+      <div class="gift-field"><span class="fk">N.º cuenta</span><span class="fv">00-123-45678-90</span><button class="copy-btn" data-copy="0012345678990">Copiar</button></div>
+      <div class="gift-field"><span class="fk">RUT</span><span class="fv">9.876.543-2</span><button class="copy-btn" data-copy="9.876.543-2">Copiar</button></div>
+      <div class="gift-field"><span class="fk">Email</span><span class="fv">biagio@email.com</span><button class="copy-btn" data-copy="biagio@email.com">Copiar</button></div>
+      <button class="copy-all-btn" type="button">Copiar todos los datos</button>
+    </div>
+
+    <p class="secure-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+      Datos exclusivos para nuestros invitados
+    </p>
+  </div>
+</div>
+
+<script>
+  // ---------- PERSONALIZACIÓN POR INVITADO ----------
+  // La URL de cada invitado se genera agregando ?i=Nombre al final del link, ej:
+  // https://tu-dominio.com/invitacion.html?i=Familia%20P%C3%A9rez
+  const urlParams = new URLSearchParams(window.location.search);
+  const guestRaw = urlParams.get('i');
+  const guestName = guestRaw ? decodeURIComponent(guestRaw.replace(/\+/g, ' ')).trim() : '';
+
+  if (guestName) {
+    const greetingEl = document.getElementById('guest-greeting');
+    greetingEl.textContent = `Querid@ ${guestName}:`;
+    greetingEl.style.display = 'block';
+
+    document.getElementById('rsvp-intro').innerHTML =
+      `${guestName}, tu presencia es muy importante para nosotros.<br>Por favor confirmar antes del 31 de julio.`;
+  }
+
+  // ---------- MENSAJES DE WHATSAPP PERSONALIZADOS ----------
+  function buildWaLink(baseNumber, nombreNovio) {
+    const saludo = guestName
+      ? `¡Hola ${nombreNovio}! Somos ${guestName} y queremos confirmar nuestra asistencia a su matrimonio 💚`
+      : `¡Hola ${nombreNovio}! Quiero confirmar mi asistencia a su matrimonio 💚`;
+    return `https://wa.me/${baseNumber}?text=${encodeURIComponent(saludo)}`;
+  }
+  const waCarolinaLink = document.getElementById('wa-carolina');
+  const waBiagioLink = document.getElementById('wa-biagio');
+  waCarolinaLink.href = buildWaLink('56999538189', 'Carolina');
+  waBiagioLink.href = buildWaLink('56984032941', 'Biagio');
+
+  // ---------- RESPALDO AUTOMÁTICO EN GOOGLE SHEETS ----------
+  // 1) Crea una Google Sheet y pega el script de Apps Script que te entregué.
+  // 2) Publícalo como "Aplicación web" (acceso: cualquier usuario).
+  // 3) Pega aquí la URL que te entrega Google (termina en /exec).
+  const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxEj47qNg2boA_y_8yRd9Ptee3NX3dRRVf3w-qEEeV4a0WwKt8MMTsppz4xeqqM-6_EkQ/exec';
+
+  function logRSVP(pareja) {
+    if (!SHEET_ENDPOINT || SHEET_ENDPOINT.indexOf('PEGA_AQUI') !== -1) return;
+    const data = new URLSearchParams();
+    data.append('nombre', guestName || 'Sin nombre en el link');
+    data.append('confirmadoCon', pareja);
+    data.append('fecha', new Date().toLocaleString('es-CL'));
+    try {
+      fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', keepalive: true, body: data });
+    } catch (e) { /* silencioso: no debe interrumpir la confirmación */ }
+  }
+  waCarolinaLink.addEventListener('click', () => logRSVP('Carolina'));
+  waBiagioLink.addEventListener('click', () => logRSVP('Biagio'));
+
+  // ---------- DROPDOWN VER UBICACIÓN (Google Maps / Waze) ----------
+  document.querySelectorAll('.venue-dropdown').forEach((dropdown) => {
+    const toggle = dropdown.querySelector('.venue-toggle');
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = dropdown.classList.contains('open');
+      document.querySelectorAll('.venue-dropdown.open').forEach(d => {
+        d.classList.remove('open');
+        d.querySelector('.venue-toggle').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        dropdown.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.venue-dropdown.open').forEach(d => {
+      d.classList.remove('open');
+      d.querySelector('.venue-toggle').setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // ---------- COUNTDOWN ----------
+  // Fecha y hora objetivo: 24 de octubre de 2026, 15:30 (hora de Chile continental)
+  const targetDate = new Date("2026-10-24T15:30:00-03:00");
+
+  function updateCountdown(){
+    const now = new Date();
+    let diff = targetDate - now;
+    if(diff < 0) diff = 0;
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff / (1000*60*60)) % 24);
+    const mins = Math.floor((diff / (1000*60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('cd-days').textContent = days;
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ---------- GIFT MODAL ----------
+  const overlay = document.getElementById('gift-modal-overlay');
+  document.getElementById('open-gift-modal').addEventListener('click', () => {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  document.getElementById('close-gift-modal').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ---------- COPY BUTTONS ----------
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = btn.getAttribute('data-copy');
+      try{
+        await navigator.clipboard.writeText(text);
+      }catch(e){
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      const original = btn.textContent;
+      btn.textContent = 'Copiado ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+    });
+  });
+
+  // ---------- COPIAR TODOS LOS DATOS DE UNA CUENTA ----------
+  document.querySelectorAll('.copy-all-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const acc = btn.closest('.gift-account');
+      const owner = (acc.querySelector('.owner')?.textContent || '').trim();
+      const lines = owner ? [owner] : [];
+      acc.querySelectorAll('.gift-field').forEach(f => {
+        const k = (f.querySelector('.fk')?.textContent || '').trim();
+        const cp = f.querySelector('.copy-btn')?.getAttribute('data-copy')
+                 || (f.querySelector('.fv')?.textContent || '').trim();
+        lines.push(`${k}: ${cp}`);
+      });
+      const text = lines.join('\n');
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      const original = btn.textContent;
+      btn.textContent = 'Copiado ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1600);
+    });
+  });
+</script>
+</body>
+</html>
